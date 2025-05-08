@@ -87,14 +87,14 @@ async function runClient() {
   
   console.log(`Received ${packets.length} packets. Missing sequences: ${missingSequences.join(', ')}`);
   
-  // Step 3: Request each missing sequence
+  //request for each missing sequence
   for (const seq of missingSequences) {
     await new Promise((resolve, reject) => {
       const client = new net.Socket();
       
       client.connect(PORT, HOST, () => {
         console.log(`Requesting missing packet with sequence ${seq}...`);
-        const payload = createRequestPayload(2, seq); // Call Type 2: Resend Packet
+        const payload = createRequestPayload(2, seq);
         client.write(payload);
       });
       
@@ -104,7 +104,7 @@ async function runClient() {
         buffer = Buffer.concat([buffer, data]);
         
         if (buffer.length >= PACKET_SIZE) {
-          const packetBuffer = buffer.slice(0, PACKET_SIZE);
+          const packetBuffer = buffer.subarray(0, PACKET_SIZE);
           const packet = parsePacket(packetBuffer);
           
           if (packet) {
