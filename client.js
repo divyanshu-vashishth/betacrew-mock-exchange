@@ -8,8 +8,8 @@ const PACKET_SIZE = 17;
 
 function createRequestPayload(callType, resendSeq = 0) {
   const buffer = Buffer.alloc(2);
-  buffer.writeInt8(callType, 0);  
-  buffer.writeInt8(resendSeq, 1);
+  buffer.writeUInt8(callType, 0);  
+  buffer.writeUInt8(resendSeq, 1);
   return buffer;
 }
 
